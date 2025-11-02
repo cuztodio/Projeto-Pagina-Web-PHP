@@ -1,98 +1,214 @@
-# Sistema Web PHP + MySQL (PDO): Login + CRUD (Produtos & Categorias)
+📘 1️⃣ Visão Geral
 
-Projeto acadêmico **sem Laravel**, usando **PHP 8+**, **MySQL**, **PDO**, **password_hash**, **password_verify**, **prepared statements** e **proteções básicas (XSS, CSRF)**.
+Este projeto é um sistema web completo desenvolvido em PHP puro (sem frameworks), com banco de dados MySQL e PDO para conexão segura.
+Inclui autenticação de usuários, CRUD completo de produtos, associação a categorias, exportação de dados em CSV e medidas básicas de segurança (senhas hash, proteção contra SQL Injection e XSS).
 
-## Funcionalidades
-- Autenticação (login/logout) com `password_hash` / `password_verify`
-- Sessão e páginas protegidas
-- CRUD completo para **Produtos** (tabela principal) e **Categorias** (relacionamento 1:N)
-- Busca por nome e filtro por categoria na lista de produtos
-- **Exportação CSV** dos produtos (recurso extra obrigatório)
-- **Upload de imagem** do produto (opcional; salva o caminho do arquivo)
-- Proteções: **PDO + prepared statements**, **XSS via `htmlspecialchars`**, **CSRF token** nos formulários
-- Organização de pastas: `config/`, `includes/`, `public/`, `assets/`, `sql/`
+⚙️ 2️⃣ Pré-requisitos
 
-## Requisitos
-- PHP 8.1+ com extensões `pdo` e `pdo_mysql`
-- MySQL 8+
-- Navegador web moderno
+Antes de rodar o sistema, é necessário ter instalado:
 
-## Instalação
-1. **Crie o banco de dados** e importe os scripts:
-   - `sql/schema.sql`
-   - `sql/seed.sql`
+PHP 8.1 ou superior
 
-2. **Configure a conexão** em `config/db.php`:
-   ```php
-   define('DB_HOST', 'localhost');
-   define('DB_NAME', 'php_crud_auth_app');
-   define('DB_USER', 'root');
-   define('DB_PASS', 'sua_senha');
-   ```
+MySQL 8.0 ou superior
 
-3. **Permissões de upload (opcional)**:
-   - Certifique-se de que a pasta `public/uploads` exista e tenha permissão de escrita:
-     ```bash
-     mkdir -p public/uploads
-     ```
+MySQL Workbench
 
-4. **Suba o servidor PHP de desenvolvimento** na pasta `public/`:
-   ```bash
-   cd public
-   php -S localhost:8000
-   ```
-   Acesse: http://localhost:8000
+Um editor de código (VS Code recomendado)
 
-## Usuários de teste
-- **admin@exemplo.com** / **admin123**
-- **user@exemplo.com** / **user123**
+Navegador atualizado (Chrome, Edge, etc.)
 
-## Estrutura de Pastas
-```
-config/
-  db.php                 # Conexão PDO
-includes/
-  auth.php               # Autorização + CSRF helpers
-  functions.php          # Funções utilitárias (sanitize etc.)
-assets/
-  styles.css             # Estilos simples
-public/
-  index.php              # Redireciona para login/dashboard
-  login.php              # Form + processamento de login
-  logout.php             # Encerra sessão
-  dashboard.php          # Tela protegida
-  products/
-    list.php             # Listagem + busca/filtros + export CSV
-    create.php           # Cadastrar produto (com upload opcional)
-    edit.php             # Editar produto (com upload opcional)
-    delete.php           # Deletar produto (CSRF)
-    export_csv.php       # Gera CSV
-  categories/
-    list.php             # Listar categorias
-    create.php           # Cadastrar categoria
-    edit.php             # Editar categoria
-    delete.php           # Deletar categoria
-sql/
-  schema.sql             # Criação de tabelas, chaves, índices
-  seed.sql               # Dados iniciais (usuários, categorias)
-README.md                # Este manual/tutorial
-```
+🧱 3️⃣ Estrutura do Projeto
+php_crud_auth_app/
+ ┣ config/
+ ┃ ┗ db.php               → conexão com banco via PDO
+ ┣ includes/
+ ┃ ┣ auth.php             → controle de sessão e login
+ ┃ ┗ functions.php        → funções auxiliares
+ ┣ public/
+ ┃ ┣ assets/
+ ┃ ┃ ┗ styles.css         → estilos do site
+ ┃ ┣ index.php            → redirecionamento ou dashboard
+ ┃ ┣ login.php            → tela de login
+ ┃ ┣ logout.php           → finaliza sessão
+ ┃ ┣ dashboard.php        → área protegida após login
+ ┃ ┣ categories/          → CRUD de categorias
+ ┃ ┗ products/            → CRUD de produtos + export_csv.php
+ ┗ sql/
+   ┗ database.sql         → script completo do banco de dados
 
-## Segurança Implementada (resumo)
-- **SQL Injection**: *sempre* via **PDO + prepared statements**
-- **XSS**: Saída sanitizada com `htmlspecialchars($str, ENT_QUOTES, 'UTF-8')`
-- **Senhas**: `password_hash()` e `password_verify()`
-- **Sessões**: `session_regenerate_id()` após login + `session_destroy()` no logout
-- **CSRF**: token em formulários de ações sensíveis (create/edit/delete/login)
+🧰 4️⃣ Configurando o Banco de Dados
 
-## Recurso Novo (além do tutorial)
-- **Exportação CSV** dos produtos, com filtros aplicados.
-- **Upload de imagens** de produtos (validação simples: extensão e tamanho).
+Abra o MySQL Workbench
 
-## Integração com POO2 (se aplicável)
-- O projeto usa um **único banco MySQL** com chaves estrangeiras entre `products` e `categories`,
-  podendo ser integrado ao seu esquema unificado de POO2.
+Clique em “New SQL Tab”
 
-## Observações
-- Código comentado e didático para apresentação na NP2.
-- Todos os membros devem entender o fluxo: **login → dashboard → CRUD → export CSV**.
+Copie e cole o script SQL (que te mandei anteriormente)
+
+Execute tudo (⚡ botão de raio)
+
+🔹 Isso vai criar:
+
+Banco de dados php_crud_auth_app
+
+Tabelas users, categories, products
+
+Usuário admin e user já prontos
+
+🔑 5️⃣ Credenciais de Acesso
+Tipo	E-mail	Senha
+Administrador	admin@example.com
+	admin123
+Usuário comum	user@example.com
+	user123
+🧩 6️⃣ Configurando o PHP
+1. Verifique se o PHP está instalado:
+
+Abra o PowerShell ou CMD e digite:
+
+php -v
+
+
+Se aparecer a versão, está tudo certo.
+
+2. Ative o driver PDO MySQL (se necessário)
+
+Abra o arquivo:
+
+C:\php\php.ini
+
+
+Procure as linhas:
+
+;extension=pdo_mysql
+;extension=mysqli
+
+
+Remova o ponto e vírgula (;) no início delas:
+
+extension=pdo_mysql
+extension=mysqli
+
+
+Salve e reinicie o terminal.
+
+🖥️ 7️⃣ Executando o Projeto
+
+Abra o terminal dentro da pasta public do projeto:
+
+cd C:\Users\SeuUsuario\Downloads\php_crud_auth_app\public
+
+
+Inicie o servidor embutido do PHP:
+
+php -S localhost:8000
+
+
+Acesse o sistema no navegador:
+👉 http://localhost:8000
+
+🔐 8️⃣ Sistema de Login
+
+Acesse com as credenciais acima.
+
+Após logar, será redirecionado para o dashboard.
+
+Apenas usuários autenticados acessam as páginas de CRUD.
+
+🛠 9️⃣ CRUD de Produtos e Categorias
+Produtos:
+
+Criar, editar e excluir produtos.
+
+Associar produtos a categorias.
+
+Exportar dados em CSV formatado para Excel.
+
+Categorias:
+
+Adicionar novas categorias.
+
+Deletar ou editar categorias existentes.
+
+Evita duplicatas automaticamente (UNIQUE).
+
+📤 🔟 Exportar Dados para CSV
+
+Na tela de produtos, clique em “Exportar CSV”.
+O arquivo será baixado com as colunas:
+
+ID;Nome;Categoria;Preço
+
+
+O CSV abre corretamente no Excel (PT-BR), com acentuação preservada.
+
+🔒 11️⃣ Segurança Implementada
+
+PDO + Prepared Statements → evita SQL Injection
+
+password_hash() / password_verify() → senhas seguras
+
+htmlspecialchars() em entradas → proteção contra XSS
+
+Sessões PHP → controla autenticação e expiração de login
+
+ON DELETE SET NULL → garante integridade referencial
+
+🧠 12️⃣ Funcionalidade Extra (Requisito NP2)
+
+💡 Exportação de dados para CSV formatado (compatível com Excel)
+
+Implementada no arquivo:
+
+public/products/export_csv.php
+
+
+Esse recurso exporta automaticamente os produtos cadastrados com suas categorias, já prontos para análise e relatórios administrativos.
+
+🧹 13️⃣ Comandos SQL úteis (administração rápida)
+
+Listar todas as categorias:
+
+SELECT * FROM categories;
+
+
+Deletar produtos de uma categoria:
+
+DELETE FROM products WHERE category_id = 2;
+
+
+Desassociar produtos de uma categoria:
+
+UPDATE products SET category_id = NULL WHERE category_id = 2;
+
+
+Resetar o banco:
+
+DROP DATABASE php_crud_auth_app;
+
+🎨 14️⃣ Estilo e Interface
+
+Layout limpo e responsivo.
+
+Cores suaves e espaçamento agradável.
+
+Campos com feedback visual (mensagens de erro e sucesso).
+
+🚀 15️⃣ Sugestões de Expansão
+
+Upload de imagem para produtos (image_path).
+
+Controle de permissões (admin x usuário).
+
+Geração de relatórios em PDF.
+
+API REST para integração com aplicações móveis.
+
+🧾 16️⃣ Conclusão
+
+Esse sistema atende aos requisitos da NP2:
+✅ Estrutura organizada
+✅ CRUD completo
+✅ Login com hash e segurança
+✅ Relacionamentos com chaves estrangeiras
+✅ Funcionalidade extra implementada (Exportação CSV)
+✅ Manual/tutorial explicativo
