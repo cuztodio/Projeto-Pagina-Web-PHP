@@ -1,0 +1,185 @@
+/* assets/styles.css — refresh visual moderno */
+/* Import Google Font (Roboto + Inter for headings) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700&family=Roboto:wght@300;400;500&display=swap');
+
+:root{
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --primary: #0ea5a4;    /* teal */
+  --primary-dark: #0b8b88;
+  --accent: #7c3aed;
+  --danger: #ef4444;
+  --surface-2:#eef2f7;
+  --glass: rgba(255,255,255,0.6);
+  --radius: 12px;
+  --shadow: 0 8px 24px rgba(16,24,40,0.06);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Roboto", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #f7fbfd 0%, var(--bg) 100%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  padding-bottom:40px;
+}
+
+/* Layout container */
+.container{
+  max-width:1100px;
+  margin:28px auto;
+  padding:0 18px;
+}
+
+/* Header / nav */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+header h1{
+  margin:0;
+  font-family: "Inter", sans-serif;
+  font-weight:700;
+  font-size:20px;
+  color:var(--text);
+  letter-spacing:-0.2px;
+}
+nav a{
+  margin-left:12px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:500;
+  font-size:14px;
+  padding:8px 10px;
+  border-radius:8px;
+}
+nav a:hover{ color:var(--primary); background:transparent; }
+
+/* Card */
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+  border:1px solid #e6edf6;
+}
+
+/* Forms */
+label{display:block;font-size:13px;color:var(--muted);margin:6px 0 6px}
+input, select, textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #d7e2ee;
+  background:#fff;
+  color:var(--text);
+  font-size:15px;
+  outline:none;
+  transition:box-shadow .15s, border-color .12s;
+}
+input:focus, select:focus, textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 6px 18px rgba(14,165,164,0.08);
+}
+button{
+  padding:10px 14px;
+  border-radius:10px;
+  border:0;
+  cursor:pointer;
+  font-weight:600;
+  font-size:14px;
+  transition:transform .08s ease, box-shadow .08s;
+}
+button:active{ transform:translateY(1px) }
+
+.btn-primary{
+  background:linear-gradient(180deg,var(--primary),var(--primary-dark));
+  color:white;
+  box-shadow:0 6px 18px rgba(14,165,164,0.12);
+}
+.btn-ghost{
+  background:transparent;
+  border:1px solid #e6edf6;
+  color:var(--text);
+}
+.btn-danger{
+  background:var(--danger);
+  color:white;
+}
+
+/* Utilities */
+.badge{ display:inline-block;padding:6px 10px;border-radius:999px;background:var(--surface-2);color:var(--muted);font-size:13px }
+.toolbar{ display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap }
+.btn-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+
+/* Alerts */
+.alert{ padding:12px 14px;border-radius:10px;margin:10px 0;font-size:14px }
+.alert.error{ background:#fff5f5;border:1px solid #f8d7da;color:#7f1d1d }
+.alert.success{ background:#f4fffb;border:1px solid #bdeedd;color:#064e3b }
+
+/* Table */
+.table{ width:100%; border-collapse:collapse; font-size:14px; }
+.table th, .table td{ padding:12px 14px; text-align:left; border-bottom:1px solid #eef4fb; vertical-align:middle }
+.table thead th{ background:transparent; color:var(--muted); font-size:13px; font-weight:600 }
+.table tbody tr:hover{ background: #fbfdff }
+.table img.thumb{ max-width:72px; border-radius:8px; border:1px solid #e6edf6 }
+
+/* Responsive controls */
+@media (max-width:900px){
+  header{ flex-direction:column; align-items:flex-start; gap:8px }
+  .toolbar{ flex-direction:column; align-items:stretch }
+  .table th, .table td{ padding:10px 8px; font-size:13px }
+  .container{ padding:0 14px }
+}
+
+/* Footer small */
+footer{ color:var(--muted); font-size:13px; margin-top:18px; opacity:.9 }
+
+/* Small helpers for actions */
+.actions{ display:flex; gap:8px; align-items:center }
+.link-muted{ color:var(--muted); text-decoration:underline; cursor:pointer }
+
+/* Search input with icon (simple) */
+.search-wrap{ position:relative }
+.search-wrap input{ padding-left:40px }
+.search-wrap .icon{
+  position:absolute; left:10px; top:50%; transform:translateY(-50%); opacity:.45; font-size:14px
+}
+
+/* Tiny form-inline for table filters */
+.form-inline{ display:flex; gap:8px; align-items:center }
+.form-inline > *{ min-width:120px }
+
+/* Nice card header */
+.card-header{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px }
+.card-header h2{ margin:0; font-size:16px; font-family:Inter, sans-serif; font-weight:600; color:var(--text) }
+
+/* subtle drop shadow for floating actions */
+.fab{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  background:var(--accent); color:white; padding:10px 14px; border-radius:999px; box-shadow:0 8px 22px rgba(124,58,237,0.18);
+}
+
+/* small form helper text */
+.help{ font-size:12px; color:var(--muted); margin-top:6px }
+
+/* clean pagination placeholder */
+.pager{ display:flex; gap:6px; align-items:center }
+
+/* make file input look better (basic) */
+input[type="file"]{ padding:8px 10px; border-radius:8px }
+
+/* mobile image preview */
+@media(max-width:480px){
+  .table img.thumb{ max-width:56px }
+}
